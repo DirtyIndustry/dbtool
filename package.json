@@ -25,6 +25,9 @@
     "files": [
       "dist/electron/**/*"
     ],
+    "publish": {
+      "provider": "github"
+    },
     "dmg": {
       "contents": [
         {
@@ -51,6 +54,7 @@
     }
   },
   "dependencies": {
+    "electron-updater": "^4.3.5",
     "element-ui": "^2.15.0",
     "moment": "^2.29.1",
     "oracledb": "^4.0.0",

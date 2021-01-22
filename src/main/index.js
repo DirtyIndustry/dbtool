@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -55,14 +55,30 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
+
 import { autoUpdater } from 'electron-updater'
 
 autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+  if (process.env.NODE_ENV === 'production') {
+    dialog.showMessageBox({
+      type: 'info',
+      title: '软件更新',
+      message: '发现新版本, 是否重启软件并更新?',
+      buttons: ['更新', '取消']
+    }, (buttonIndex) => {
+      if (buttonIndex === 0) {
+        const isSilent = true
+        const isForceRunAfter = true
+        autoUpdater.quitAndInstall(isSilent, isForceRunAfter)
+      } else {
+        updater.enabled = true
+        updater = null
+      }
+    })
+  }
+  // autoUpdater.quitAndInstall()
 })
 
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
- */
