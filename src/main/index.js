@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, Menu } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -18,10 +18,12 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 520,
+    height: 540,
     useContentSize: true,
     width: 1000,
+    resizable: false,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true
     }
   })
@@ -31,6 +33,27 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  createMenu()
+}
+
+function createMenu () {
+  /**
+   * Remove window menu
+   */
+  if (process.platform === 'darwin') {
+    const template = [{
+      label: 'Database Tool',
+      submenu: [
+        {role: 'about'},
+        {role: 'quit'}
+      ]
+    }]
+    let menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
+  } else {
+    Menu.setApplicationMenu(null)
+  }
 }
 
 app.on('ready', createWindow)
