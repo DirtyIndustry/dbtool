@@ -2,9 +2,11 @@
   <div id="app">
     <el-tabs v-model="activeTab">
       <el-tab-pane label="数据复位" name="数据复位">
-        <panel-reset></panel-reset>
+        <panel-reset v-if="activeTab == '数据复位'"></panel-reset>
       </el-tab-pane>
-      <el-tab-pane label="查询" name="查询">查询</el-tab-pane>
+      <el-tab-pane label="作业按钮" name="作业按钮">
+        <task-action-panel v-if="activeTab == '作业按钮'"></task-action-panel>
+      </el-tab-pane>
       <el-tab-pane label="修改" name="修改">修改</el-tab-pane>
       <el-tab-pane label="设置" name="设置">设置</el-tab-pane>
     </el-tabs>
@@ -13,16 +15,18 @@
 
 <script>
   import PanelReset from '@/components/PanelReset'
+  import TaskActionPanel from '@/components/TaskActionPanel'
 
   export default {
     name: 'db-tool',
     components: {
-      PanelReset
+      PanelReset,
+      TaskActionPanel,
     },
     data() {
       return {
         loading: false,
-        activeTab: '数据复位'
+        activeTab: '作业按钮'
       }
     },
     methods: {
