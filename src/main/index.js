@@ -41,19 +41,15 @@ function createMenu () {
   /**
    * Remove window menu
    */
-  if (process.platform === 'darwin') {
-    const template = [{
-      label: 'Database Tool',
-      submenu: [
-        {role: 'about'},
-        {role: 'quit'}
-      ]
-    }]
-    let menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
-  } else {
-    Menu.setApplicationMenu(null)
-  }
+  const template = [{
+    label: 'Database Tool',
+    submenu: [
+      {role: 'about'},
+      {role: 'quit'}
+    ]
+  }]
+  let menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 }
 
 app.on('ready', createWindow)
@@ -90,7 +86,7 @@ autoUpdater.on('update-downloaded', () => {
       buttons: ['更新', '取消']
     }, (buttonIndex) => {
       if (buttonIndex === 0) {
-        const isSilent = true
+        const isSilent = false
         const isForceRunAfter = true
         autoUpdater.quitAndInstall(isSilent, isForceRunAfter)
       } else {
