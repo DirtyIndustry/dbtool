@@ -9,6 +9,7 @@
           >{{ server.name }}</el-radio
         >
       </el-radio-group>
+      <el-button size="small" :disabled="loading" @click="handleRefresh">刷新</el-button>
     </div>
     <el-select v-model="selectedJobId" placeholder="请选择" @change="handleJobChange">
       <el-option
@@ -123,6 +124,9 @@ export default {
       this.jobList = list;
       this.loading = false;
       this.handleJobChange()
+    },
+    handleRefresh() {
+      this.getJobQueues()
     },
     handleJobChange() {
       this.selectedJob = this.jobList.find(x => x.ID === this.selectedJobId)
