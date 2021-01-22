@@ -82,26 +82,25 @@ app.on('activate', () => {
 import { autoUpdater } from 'electron-updater'
 
 autoUpdater.on('update-downloaded', () => {
-  if (process.env.NODE_ENV === 'production') {
-    dialog.showMessageBox({
-      type: 'info',
-      title: '软件更新',
-      message: '发现新版本, 是否重启软件并更新?',
-      buttons: ['更新', '取消']
-    }, (buttonIndex) => {
-      if (buttonIndex === 0) {
-        const isSilent = true
-        const isForceRunAfter = true
-        autoUpdater.quitAndInstall(isSilent, isForceRunAfter)
-      } else {
-        updater.enabled = true
-        updater = null
-      }
-    })
-  }
-  // autoUpdater.quitAndInstall()
+  autoUpdater.quitAndInstall()
+  // if (process.env.NODE_ENV === 'production') {
+  //   dialog.showMessageBox({
+  //     type: 'info',
+  //     title: '软件更新',
+  //     message: '发现新版本, 关闭软件时进行更新?',
+  //     buttons: ['更新', '取消']
+  //   }, (buttonIndex) => {
+  //     if (buttonIndex === 0) {
+  //       const isSilent = false
+  //       const isForceRunAfter = true
+  //       autoUpdater.quitAndInstall(isSilent, isForceRunAfter)
+  //     } else {
+  //       autoUpdater.off()
+  //     }
+  //   })
+  // }
 })
 
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdatesAndNotify()
 })
