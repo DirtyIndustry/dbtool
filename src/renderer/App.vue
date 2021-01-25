@@ -7,7 +7,9 @@
       <el-tab-pane label="作业按钮" name="作业按钮">
         <task-action-panel v-if="activeTab == '作业按钮'"></task-action-panel>
       </el-tab-pane>
-      <el-tab-pane label="修改" name="修改">修改</el-tab-pane>
+      <el-tab-pane label="设备状态" name="设备状态">
+        <http-panel></http-panel>
+      </el-tab-pane>
       <el-tab-pane label="设置" name="设置">设置</el-tab-pane>
     </el-tabs>
   </div>
@@ -16,17 +18,19 @@
 <script>
   import PanelReset from '@/components/PanelReset'
   import TaskActionPanel from '@/components/TaskActionPanel'
+  import HttpPanel from '@/components/HttpPanel'
 
   export default {
     name: 'db-tool',
     components: {
       PanelReset,
       TaskActionPanel,
+      HttpPanel,
     },
     data() {
       return {
         loading: false,
-        activeTab: '作业按钮'
+        activeTab: '设备状态'
       }
     },
     methods: {
