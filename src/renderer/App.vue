@@ -10,7 +10,9 @@
       <el-tab-pane label="HTTP请求" name="HTTP请求">
         <http-panel></http-panel>
       </el-tab-pane>
-      <el-tab-pane label="设置" name="设置">设置</el-tab-pane>
+      <el-tab-pane label="SQL" name="SQL">
+        <sql-panel></sql-panel>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -19,6 +21,7 @@
   import PanelReset from '@/components/PanelReset'
   import TaskActionPanel from '@/components/TaskActionPanel'
   import HttpPanel from '@/components/HttpPanel'
+  import SqlPanel from '@/components/SqlPanel'
 
   export default {
     name: 'db-tool',
@@ -26,11 +29,12 @@
       PanelReset,
       TaskActionPanel,
       HttpPanel,
+      SqlPanel
     },
     data() {
       return {
         loading: false,
-        activeTab: '数据复位'
+        activeTab: 'SQL'
       }
     },
     methods: {
