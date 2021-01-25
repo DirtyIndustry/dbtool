@@ -3045,7 +3045,7 @@ electron@^10.3.0:
 
 element-ui@^2.15.0:
   version "2.15.0"
-  resolved "https://registry.npm.taobao.org/element-ui/download/element-ui-2.15.0.tgz?cache=0&sync_timestamp=1610710781355&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-ui%2Fdownload%2Felement-ui-2.15.0.tgz#de9b73a8d1e3e3b50e82b923a5fa95295239bd41"
+  resolved "https://registry.npm.taobao.org/element-ui/download/element-ui-2.15.0.tgz?cache=0&sync_timestamp=1610710860493&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-ui%2Fdownload%2Felement-ui-2.15.0.tgz#de9b73a8d1e3e3b50e82b923a5fa95295239bd41"
   integrity sha1-3ptzqNHj47UOgrkjpfqVKVI5vUE=
   dependencies:
     async-validator "~1.8.1"

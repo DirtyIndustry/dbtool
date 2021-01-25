@@ -1,4 +1,5 @@
 const oracledb = require('oracledb')
+const moment = require('moment')
 
 const oracle = {
   // 连接数据库
@@ -41,7 +42,10 @@ const oracle = {
       const item = {}
       for (let j = 0; j < result.metaData.length; j++) {
         const name = result.metaData[j].name
-        if (row[j] != null && row[j] instanceof Uint8Array) {
+        if (row[j] != null && row[j] instanceof Date) {
+          item[name] = moment(row[j]).format('YYYY-MM-DD HH:mm:ss')
+        }
+        else if (row[j] != null && row[j] instanceof Uint8Array) {
           item[name] = this.uint8arrayToUuid(row[j])
         } else {
           item[name] = row[j]

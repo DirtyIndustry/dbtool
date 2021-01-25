@@ -15,12 +15,29 @@
         </div>
       </template>
       
-      <el-button class="submit-button" size="small" @click="executeQuery">执行</el-button>
+      <el-button class="submit-button" size="small" :disabled="loading" @click="executeQuery">执行</el-button>
     </div>
+    <el-table stripe border
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        type="index"
+        label="#"
+        width="50">
+      </el-table-column>
+      <el-table-column
+      v-for="(column, index) in columns" :key="'column' + index"
+        :prop="column.prop"
+        :label="column.label"
+        sortable>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
+import oracle from "@/utils/oracle.js"
+
 export default {
   name: 'sql-panel',
   data() {
@@ -83,18 +100,26 @@ export default {
       ],
       selectedIndex: null,
       selectedQuery: null,
+      columns: [],
+      tableData: [],
     }
   },
   methods: {
     handleSelectChange() {
-      if (this.selectedIndex) {
+      if (this.selectedIndex != null) {
         this.selectedQuery = this.list[this.selectedIndex]
       }
     },
-    executeQuery() {
+    async executeQuery() {
       const query = this.buildQuery(this.selectedQuery.query)
-      console.log(this.selectedQuery.sql + query + ' ' + this.selectedQuery.orderby)
-      
+      const sql = this.selectedQuery.sql + query + ' ' + this.selectedQuery.orderby
+      this.loading = true
+      const list = await oracle.query(sql)
+      this.loading = false
+      if (list.length) {
+        this.columns = this.buildColumnHeader(list[0])
+      }
+      this.tableData = list
     },
     buildQuery(query) {
       let str = " WHERE "
@@ -114,7 +139,18 @@ export default {
       } else {
         return ''
       }
-    }
+    },
+    buildColumnHeader(item) {
+      const keys = Object.keys(item)
+      const columns = []
+      for (let i = 0; i < keys.length; i++) {
+        columns.push({
+          prop: keys[i],
+          label: keys[i]
+        })
+      }
+      return columns
+    },
   }
 }
 </script>
