@@ -13,6 +13,9 @@
       <el-tab-pane label="SQL" name="SQL">
         <sql-panel></sql-panel>
       </el-tab-pane>
+      <el-tab-pane label="点表修改" name="点表修改">
+        <point-table-panel></point-table-panel>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -22,6 +25,7 @@
   import TaskActionPanel from '@/components/TaskActionPanel'
   import HttpPanel from '@/components/HttpPanel'
   import SqlPanel from '@/components/SqlPanel'
+  import PointTablePanel from '@/components/PointTablePanel'
 
   export default {
     name: 'db-tool',
@@ -29,7 +33,8 @@
       PanelReset,
       TaskActionPanel,
       HttpPanel,
-      SqlPanel
+      SqlPanel,
+      PointTablePanel,
     },
     data() {
       return {
