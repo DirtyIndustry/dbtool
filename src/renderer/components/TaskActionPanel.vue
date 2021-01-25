@@ -182,6 +182,8 @@ export default {
 <style scoped>
 .server-row {
   height: 40px;
+  display: flex;
+  align-items: center;
 }
 .job-info {
   font-size: 14px;

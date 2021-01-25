@@ -19,7 +19,12 @@
       <div class="row-title">BusinessType</div>
       <div class="row-content">
         <el-select size="small" v-model="equipStatus.BusinessType">
-          <el-option v-for="(item, index) in BusinessTypes" :key="index" :value="item.value" :label="item.name"></el-option>
+          <el-option
+            v-for="(item, index) in BusinessTypes"
+            :key="index"
+            :value="item.value"
+            :label="item.name"
+          ></el-option>
         </el-select>
       </div>
       <div class="row-title">PointCode</div>
@@ -36,7 +41,17 @@
       </div>
     </div>
     <div class="row">
-      <el-button size="small" class="send-button" :disabled="loading || equipStatus.EquCode == null || equipStatus.BusinessType == null" @click="sendEquipStatus">发送请求</el-button>
+      <el-button
+        size="small"
+        class="send-button"
+        :disabled="
+          loading ||
+          equipStatus.EquCode == null ||
+          equipStatus.BusinessType == null
+        "
+        @click="sendEquipStatus"
+        >发送请求</el-button
+      >
     </div>
     <div class="separator"></div>
     <div class="row">创建作业接口</div>
@@ -79,14 +94,36 @@
       <div class="row-content">
         <el-input size="small" v-model="createTask.jobQuantity"></el-input>
       </div>
-      <el-button size="small" class="send-button" :disabled="loading" @click="sendCreateTask">发送请求</el-button>
+      <el-button
+        size="small"
+        class="send-button"
+        :disabled="loading"
+        @click="sendCreateTask"
+        >发送请求</el-button
+      >
     </div>
+    <div class="separator"></div>
+    <div class="row">获取大车当前运行数据</div>
+    <div class="row">
+      <div class="row-title">CartCode</div>
+      <div class="row-content">
+        <el-input size="small" v-model="cartCode"></el-input>
+      </div>
+      <el-button
+        size="small"
+        class="send-button"
+        :disabled="loading"
+        @click="sendCartData"
+        >发送请求</el-button
+      >
+    </div>
+      <el-input class="text-area" type="textarea" :rows="6" resize="none" :value="JSON.stringify(cartData, null, 2)"></el-input>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'http-panel',
+  name: "http-panel",
   data() {
     return {
       loading: false,
@@ -100,42 +137,60 @@ export default {
       equipStatus: {
         EquCode: null,
         BusinessType: null,
-        PointCode: 'StartOrStop',
-        PointName: '启停',
-        Value: 1
+        PointCode: "StartOrStop",
+        PointName: "启停",
+        Value: 1,
       },
       BusinessTypes: [
-        {name: '启停状态', value: 'Switch'},
-        {name: '故障', value: 'Fault'},
-        {name: '位置', value: 'Location'},
-        {name: '方向', value: 'Orientation'},
-        {name: '重量', value: 'Weight'}
+        { name: "启停状态", value: "Switch" },
+        { name: "故障", value: "Fault" },
+        { name: "位置", value: "Location" },
+        { name: "方向", value: "Orientation" },
+        { name: "重量", value: "Weight" },
       ],
       createTask: {
         materialCode: null,
         batchNo: null,
-        type: '1',
+        type: "1",
         startClass: null,
         startPoint: null,
         endClass: null,
         endPoint: null,
         path: null,
-        jobQuantity: 0
+        jobQuantity: 0,
       },
+      cartCode: "NO1SR",
+      cartData: null,
       urls: {
-        equipstatus: 'JobQueues/JobQueue/ResJobStatus',
-        createtask: 'JobQueues/JobQueue/CreateJob',
-      }
-    }
+        equipstatus: "JobQueues/JobQueue/ResJobStatus",
+        createtask: "JobQueues/JobQueue/CreateJob",
+        cartdata: "JobQueues/JobQueue/GetCartCurrData?CartCode=NO1SR",
+      },
+    };
   },
   methods: {
     sendEquipStatus() {
-      const url = this.selectedServer + this.urls.equipstatus
-      this.post(url, this.equipStatus)
+      const url = this.selectedServer + this.urls.equipstatus;
+      this.post(url, this.equipStatus);
     },
     sendCreateTask() {
-      const url = this.selectedServer + this.urls.createtask
-      this.post(url, this.createTask)
+      const url = this.selectedServer + this.urls.createtask;
+      this.post(url, this.createTask);
+    },
+    sendCartData() {
+      const url = this.selectedServer + this.urls.cartdata + '?CartCode=' + this.cartCode
+      this.loading = true
+      fetch(url)
+      .then(res => {
+        this.loading = false
+        return res.json()
+      })
+      .then(data => {
+        this.cartData = data.Data
+        this.$alert("服务器返回信息: " + data.Msg, "完成", {
+          confirmButtonText: "确定",
+        });
+      })
     },
     post(url, data) {
       const params = {
@@ -146,26 +201,28 @@ export default {
           Accept: "application/json; charset=utf-8",
         },
         body: JSON.stringify(data),
-      }
-      this.loading = true
+      };
+      this.loading = true;
       fetch(url, params)
         .then((res) => {
-          this.loading = false
-          return res.json()
+          this.loading = false;
+          return res.json();
         })
         .then((data) => {
           this.$alert("服务器返回信息: " + data.Msg, "完成", {
             confirmButtonText: "确定",
           });
-        })
+        });
     },
   },
-}
+};
 </script>
 
 <style scoped>
 .server-row {
   height: 40px;
+  display: flex;
+  align-items: center;
 }
 .row {
   height: 40px;
@@ -181,9 +238,12 @@ export default {
 .send-button {
   margin-left: 10px;
 }
+.text-area {
+  margin: 10px 0;
+}
 .separator {
   width: 100%;
-  border-top: 1px solid #EFEFEF;
+  border-top: 1px solid #efefef;
   margin: 5px;
 }
 </style>

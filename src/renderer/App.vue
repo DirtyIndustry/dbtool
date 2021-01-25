@@ -7,7 +7,7 @@
       <el-tab-pane label="作业按钮" name="作业按钮">
         <task-action-panel v-if="activeTab == '作业按钮'"></task-action-panel>
       </el-tab-pane>
-      <el-tab-pane label="设备状态" name="设备状态">
+      <el-tab-pane label="HTTP请求" name="HTTP请求">
         <http-panel></http-panel>
       </el-tab-pane>
       <el-tab-pane label="设置" name="设置">设置</el-tab-pane>
@@ -30,7 +30,7 @@
     data() {
       return {
         loading: false,
-        activeTab: '设备状态'
+        activeTab: '数据复位'
       }
     },
     methods: {

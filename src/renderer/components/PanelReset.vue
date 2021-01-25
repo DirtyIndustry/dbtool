@@ -171,7 +171,7 @@ export default {
 .message-box {
   margin: 20px 10px 0 10px;
   background: #000;
-  height: 120px;
+  height: 220px;
   overflow-x: hidden;
   overflow-y: auto;
 }
