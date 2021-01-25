@@ -75,6 +75,16 @@
         >{{ action.name }}</el-button
       >
     </div>
+    <div class="manual-row">手动模式</div>
+    <div class="manual-row">
+      <div class="manual-title">服务器</div>
+      <el-input class="manual-input" size="small" v-model="selectedServer"></el-input>
+      <div class="manual-title">作业ID</div>
+      <el-input class="manual-input" size="small" v-model="selectedJobId"></el-input>
+      <div class="manual-title">操作指令</div>
+      <el-input class="manual-input" size="small" v-model="selectedAction"></el-input>
+    </div>
+    <el-button :disabled="loading || !selectedServer || selectedJobId == null || selectedAction == null">手动提交请求</el-button>
   </div>
 </template>
 
@@ -97,6 +107,7 @@ export default {
         { name: "测试服", url: "http://192.168.2.43:80/" },
       ],
       selectedServer: "http://192.168.2.43:80/",
+      selectedAction: null,
       actions: [
         { name: "启动", value: 0 },
         { name: "对位", value: 1 },
@@ -132,6 +143,9 @@ export default {
       this.selectedJob = this.jobList.find(x => x.ID === this.selectedJobId)
     },
     handleActionClick(action) {
+      if (action != null) {
+        this.selectedAction = action
+      }
       const url = this.selectedServer + this.urls.action;
       const params = {
         method: "POST",
@@ -141,8 +155,8 @@ export default {
           Accept: "application/json; charset=utf-8",
         },
         body: JSON.stringify({
-          JobId: this.selectedJob.ID,
-          BtnType: action,
+          JobId: this.selectedJobId,
+          BtnType: this.selectedAction,
         }),
       };
       this.loading = true
@@ -189,5 +203,17 @@ export default {
 }
 .action-button {
   margin: 5px 0;
+}
+.manual-row {
+  display: flex;
+  margin: 10px 0
+}
+.manual-title {
+  width: 70px;
+  display: flex;
+  align-items: center;
+}
+.manual-input {
+  flex: 1;
 }
 </style>
