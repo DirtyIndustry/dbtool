@@ -21,7 +21,7 @@ function createWindow () {
     height: 640,
     useContentSize: true,
     width: 1000,
-    resizable: false,
+    resizable: true,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true

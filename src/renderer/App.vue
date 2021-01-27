@@ -39,7 +39,7 @@
     data() {
       return {
         loading: false,
-        activeTab: 'SQL'
+        activeTab: '数据复位'
       }
     },
     methods: {

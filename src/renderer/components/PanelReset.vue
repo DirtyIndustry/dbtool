@@ -19,6 +19,15 @@
       <el-col class="list-col center" :span="4"></el-col>
     </el-row>
     <el-row class="list-row zebra">
+      <el-col class="list-col" :span="16">删除作业表</el-col>
+      <el-col class="list-col center" :span="4"
+        ><el-button @click="deleteTask" :disabled="loading"
+          >执行</el-button
+        ></el-col
+      >
+      <el-col class="list-col center" :span="4"></el-col>
+    </el-row>
+    <el-row class="list-row">
       <el-col class="list-col" :span="16">删除作业日志表</el-col>
       <el-col class="list-col center" :span="4"
         ><el-button @click="delectTaskLog" :disabled="loading"
@@ -27,7 +36,7 @@
       >
       <el-col class="list-col center" :span="4"></el-col>
     </el-row>
-    <el-row class="list-row">
+    <el-row class="list-row zebra">
       <el-col class="list-col" :span="16">删除设备日志表</el-col>
       <el-col class="list-col center" :span="4"
         ><el-button @click="delectEquipLog" :disabled="loading"
@@ -36,7 +45,7 @@
       >
       <el-col class="list-col center" :span="4"></el-col>
     </el-row>
-    <el-row class="list-row zebra">
+    <el-row class="list-row">
       <el-col class="list-col" :span="16">删除皮带秤数据表</el-col>
       <el-col class="list-col center" :span="4"
         ><el-button @click="delectPDCLog" :disabled="loading"
@@ -95,7 +104,7 @@ export default {
       }
     },
     // 重置设备状态表
-    async resetEquip() {
+    resetEquip() {
       const commands = [
         'UPDATE "EQUEPSTATUS" SET JOBCODE = NULL',
         'UPDATE "EQUEPSTATUS" SET PATHCODE = NULL',
@@ -108,7 +117,7 @@ export default {
       this.executeCommands(commands);
     },
     // 重置作业表
-    async resetTask() {
+    resetTask() {
       const commands = [
         'UPDATE "JOBQUEUE" SET RUNSTATUS = 2',
         'UPDATE "JOBQUEUE" SET POSENDSTATUS = 1',
@@ -119,18 +128,25 @@ export default {
       ];
       this.executeCommands(commands)
     },
+    // 删除作业表
+    deleteTask() {
+      const commands = [
+        'DELETE FROM "JOBQUEUE"'
+      ]
+      this.executeCommands(commands)
+    },
     // 删除作业日志表
-    async delectTaskLog() {
+    delectTaskLog() {
       const commands = ['DELETE FROM LOGJOBACTION']
       this.executeCommands(commands);
     },
     // 删除设备日志表
-    async delectEquipLog() {
+    delectEquipLog() {
       const commands = ["DELETE FROM LOGEQUACTION"]
       this.executeCommands(commands)
     },
     // 删除皮带秤数据表
-    async delectPDCLog() {
+    delectPDCLog() {
       const commands = ["DELETE FROM COMJOBQUANTITY"]
       this.executeCommands(commands)
     },
