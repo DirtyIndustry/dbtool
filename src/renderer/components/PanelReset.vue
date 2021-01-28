@@ -24,89 +24,20 @@ import oracle from "@/utils/oracle.js";
 import moment from "moment";
 import path from 'path'
 
-let appsettings = {
-  DatabaseCommands: [
-    {
-      name: '重置设备状态表',
-      commands: [
-        'UPDATE "EQUEPSTATUS" SET JOBCODE = NULL',
-        'UPDATE "EQUEPSTATUS" SET PATHCODE = NULL',
-        'UPDATE "EQUEPSTATUS" SET RUNSTATUS = 0',
-        'UPDATE "EQUEPSTATUS" SET ISMATERIAL = 0',
-        'UPDATE "EQUEPSTATUS" SET ISSTOP = 0',
-        'UPDATE "EQUEPSTATUS" SET WANITEM = NULL',
-        'UPDATE "EQUEPSTATUS" SET WANITEMCODE = NULL',
-      ]
-    },
-    {
-      name: '重置作业表',
-      commands: [
-        'UPDATE "JOBQUEUE" SET RUNSTATUS = \'可启动\'',
-        'UPDATE "JOBQUEUE" SET POSENDSTATUS = \'可对位\'',
-        'UPDATE "JOBQUEUE" SET POSSTARTSTATUS = \'可对位\'',
-        'UPDATE "JOBQUEUE" SET FEEDSTATUS = \'不可给料\'',
-        'UPDATE "JOBQUEUE" SET FAULTSTATUS = \'无故障\'',
-        'UPDATE "JOBQUEUE" SET STATUS = 0',
-      ]
-    },
-    {
-      name: '删除作业表',
-      commands: [
-        'DELETE FROM "JOBQUEUE"'
-      ]
-    },
-    {
-      name: '删除作业日志表',
-      commands: [
-        'DELETE FROM LOGJOBACTION'
-      ]
-    },
-    {
-      name: '删除设备日志表',
-      commands: ['DELETE FROM LOGEQUACTION']
-    },
-    {
-      name: '删除皮带秤数据表',
-      commands: ['DELETE FROM COMJOBQUANTITY']
-    }
-  ]
-}
 export default {
   name: "panel-reset",
   data() {
     return {
       loading: false,
-      appsettings,
       logs: [],
     };
   },
+  computed: {
+    appsettings() {
+      return this.$settings
+    }
+  },
   methods: {
-    getAppSettings() {
-      try {
-        const remote = require('electron').remote
-        const fs = require('fs')
-        let filepath
-        if (remote.process.env.WEBPACK_DEV_SERVER) {
-          filepath = '/static/appsettings.json'
-        } else {
-          filepath = path.join(remote.app.getAppPath(), '../../static/appsettings.json')
-        }
-        if (!fs.existsSync(filepath)) {
-          alert('Appsettings file not exist!')
-          fs.mkdirSync(path.dirname(filepath))
-          fs.writeFileSync(filepath, JSON.stringify(appsettings, null, 1))
-        } else {
-          fetch(filepath)
-          .then(res => res.json())
-          .then(data => {
-            appsettings = data
-            this.$forceUpdate()
-          })
-        }
-      } catch (err) {
-        alert(err.message)
-      }
-    },
     handleClick(item) {
       this.executeCommands(item.commands)
     },
@@ -149,9 +80,6 @@ export default {
         elem.scrollTop = elem.scrollHeight
       })
     },
-  },
-  mounted() {
-    this.getAppSettings()
   },
 };
 </script>
