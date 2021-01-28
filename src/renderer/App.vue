@@ -67,12 +67,11 @@ export default {
           fetch(filepath)
             .then((res) => res.json())
             .then((data) => {
-              console.log(data.version < this.$settings.version)
-              if (data.version < this.$settings.version || data.version == null) {
+              if (data.version < this.$store.settings.version || data.version == null) {
                 alert('当前配置文件版本过低, 升级配置文件')
-                fs.writeFileSync(filepath, JSON.stringify(this.$settings, null, 1))
+                fs.writeFileSync(filepath, JSON.stringify(this.$store.settings, null, 1))
               } else {
-                this.$settings = data;
+                this.$store.settings = data;
                 this.$forceUpdate();
               }
             });
@@ -148,8 +147,8 @@ export default {
       this.query(SQL);
     },
   },
-  created() {
-    console.log("Homepage mounted.");
+  mounted() {
+    console.log("App mounted.")
     this.getAppSettings()
   },
 };

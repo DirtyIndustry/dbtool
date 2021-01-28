@@ -102,29 +102,14 @@ export default {
       // 选择的作业
       selectedJobId: null,
       selectedJob: null,
-      servers: [
-        { name: "本地", url: "http://localhost:9600/" },
-        { name: "测试服", url: "http://192.168.2.43:80/" },
-      ],
       selectedServer: "http://192.168.2.43:80/",
       selectedAction: null,
-      actions: [
-        { name: "启动", value: 0 },
-        { name: "对位", value: 1 },
-        { name: "合流", value: 2 },
-        { name: "停止启动", value: 3 },
-        { name: "急停", value: 4 },
-        { name: "给料", value: 5 },
-        { name: "停料", value: 6 },
-        { name: "顺停", value: 7 },
-        { name: "继续", value: 8 },
-        { name: "删除", value: 9 },
-        { name: "结束", value: 10 },
-      ],
-      urls: {
-        action: "JobQueues/JobQueue/JobBtns",
-      },
     };
+  },
+  computed: {
+    servers() {return this.$store.settings.Servers},
+    actions() {return this.$store.settings.TaskActions},
+    urls() {return this.$store.settings.Urls}
   },
   methods: {
     moment,

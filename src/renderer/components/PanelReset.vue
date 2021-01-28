@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     appsettings() {
-      return this.$settings
+      return this.$store.settings
     }
   },
   methods: {

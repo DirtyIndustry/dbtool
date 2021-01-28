@@ -9,8 +9,8 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
-Vue.prototype.$settings = {
-  version: 1.0,
+const store = Vue.observable({settings: {
+  version: 1.1,
   DatabaseCommands: [
     {
       name: '重置设备状态表',
@@ -55,8 +55,32 @@ Vue.prototype.$settings = {
       name: '删除皮带秤数据表',
       commands: ['DELETE FROM COMJOBQUANTITY']
     }
+  ],
+  Servers: [
+    { name: "本地", url: "http://localhost:9600/" },
+    { name: "测试服", url: "http://192.168.2.43:80/" },
+  ],
+  Urls: {
+    taskaction: "JobQueues/JobQueue/JobBtns",
+
+  },
+  TaskActions: [
+    { name: "启动", value: 0 },
+    { name: "对位", value: 1 },
+    { name: "合流", value: 2 },
+    { name: "停止启动", value: 3 },
+    { name: "急停", value: 4 },
+    { name: "给料", value: 5 },
+    { name: "停料", value: 6 },
+    { name: "顺停", value: 7 },
+    { name: "继续", value: 8 },
+    { name: "删除", value: 9 },
+    { name: "结束", value: 10 },
+    { name: "只停", value: 11 },
   ]
-}
+}})
+
+Vue.prototype.$store = store
 
 /* eslint-disable no-new */
 new Vue({
