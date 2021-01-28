@@ -22,7 +22,6 @@
 <script>
 import oracle from "@/utils/oracle.js";
 import moment from "moment";
-import path from 'path'
 
 export default {
   name: "panel-reset",

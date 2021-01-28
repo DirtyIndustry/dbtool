@@ -48,6 +48,7 @@ export default {
       try {
         const remote = require("electron").remote;
         const fs = require("fs");
+        const path = require("path")
         let filepath;
         if (remote.process.env.WEBPACK_DEV_SERVER) {
           filepath = "./static/appsettings.json";
