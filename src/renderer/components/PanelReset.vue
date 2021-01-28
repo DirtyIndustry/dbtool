@@ -1,54 +1,10 @@
 <template>
   <div>
-    <el-row class="list-row zebra">
-      <el-col class="list-col" :span="16">重置设备状态表</el-col>
+    <el-row v-for="(item, index) in appsettings.DatabaseCommands" :key="index"
+      class="list-row" :class="{'zebra': index % 2 == 0}">
+      <el-col class="list-col" :span="16">{{item.name}}</el-col>
       <el-col class="list-col center" :span="4"
-        ><el-button @click="resetEquip" :disabled="loading"
-          >执行</el-button
-        ></el-col
-      >
-      <el-col class="list-col center" :span="4"></el-col>
-    </el-row>
-    <el-row class="list-row">
-      <el-col class="list-col" :span="16">重置作业表</el-col>
-      <el-col class="list-col center" :span="4"
-        ><el-button @click="resetTask" :disabled="loading"
-          >执行</el-button
-        ></el-col
-      >
-      <el-col class="list-col center" :span="4"></el-col>
-    </el-row>
-    <el-row class="list-row zebra">
-      <el-col class="list-col" :span="16">删除作业表</el-col>
-      <el-col class="list-col center" :span="4"
-        ><el-button @click="deleteTask" :disabled="loading"
-          >执行</el-button
-        ></el-col
-      >
-      <el-col class="list-col center" :span="4"></el-col>
-    </el-row>
-    <el-row class="list-row">
-      <el-col class="list-col" :span="16">删除作业日志表</el-col>
-      <el-col class="list-col center" :span="4"
-        ><el-button @click="delectTaskLog" :disabled="loading"
-          >执行</el-button
-        ></el-col
-      >
-      <el-col class="list-col center" :span="4"></el-col>
-    </el-row>
-    <el-row class="list-row zebra">
-      <el-col class="list-col" :span="16">删除设备日志表</el-col>
-      <el-col class="list-col center" :span="4"
-        ><el-button @click="delectEquipLog" :disabled="loading"
-          >执行</el-button
-        ></el-col
-      >
-      <el-col class="list-col center" :span="4"></el-col>
-    </el-row>
-    <el-row class="list-row">
-      <el-col class="list-col" :span="16">删除皮带秤数据表</el-col>
-      <el-col class="list-col center" :span="4"
-        ><el-button @click="delectPDCLog" :disabled="loading"
+        ><el-button @click="handleClick(item)" :disabled="loading"
           >执行</el-button
         ></el-col
       >
@@ -120,6 +76,7 @@ export default {
   data() {
     return {
       loading: false,
+      appsettings,
       logs: [],
     };
   },
@@ -143,11 +100,15 @@ export default {
           .then(res => res.json())
           .then(data => {
             appsettings = data
+            this.$forceUpdate()
           })
         }
       } catch (err) {
         alert(err.message)
       }
+    },
+    handleClick(item) {
+      this.executeCommands(item.commands)
     },
     async executeCommands(commands) {
       if (!commands || commands.length == 0) {
@@ -175,77 +136,6 @@ export default {
         this.log("关闭数据库连接.");
         this.loading = false;
       }
-    },
-    // 重置设备状态表
-    resetEquip() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '重置设备状态表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = [
-      //   'UPDATE "EQUEPSTATUS" SET JOBCODE = NULL',
-      //   'UPDATE "EQUEPSTATUS" SET PATHCODE = NULL',
-      //   'UPDATE "EQUEPSTATUS" SET RUNSTATUS = 0',
-      //   'UPDATE "EQUEPSTATUS" SET ISMATERIAL = 0',
-      //   'UPDATE "EQUEPSTATUS" SET ISSTOP = 0',
-      //   'UPDATE "EQUEPSTATUS" SET WANITEM = NULL',
-      //   'UPDATE "EQUEPSTATUS" SET WANITEMCODE = NULL',
-      // ];
-      // this.executeCommands(commands);
-    },
-    // 重置作业表
-    resetTask() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '重置作业表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = [
-      //   'UPDATE "JOBQUEUE" SET RUNSTATUS = 2',
-      //   'UPDATE "JOBQUEUE" SET POSENDSTATUS = 1',
-      //   'UPDATE "JOBQUEUE" SET POSSTARTSTATUS = 1',
-      //   'UPDATE "JOBQUEUE" SET FEEDSTATUS = 0',
-      //   'UPDATE "JOBQUEUE" SET FAULTSTATUS = 0',
-      //   'UPDATE "JOBQUEUE" SET STATUS = 0',
-      // ];
-      // this.executeCommands(commands)
-    },
-    // 删除作业表
-    deleteTask() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '删除作业表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = [
-      //   'DELETE FROM "JOBQUEUE"'
-      // ]
-      // this.executeCommands(commands)
-    },
-    // 删除作业日志表
-    delectTaskLog() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '删除作业日志表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = ['DELETE FROM LOGJOBACTION']
-      // this.executeCommands(commands);
-    },
-    // 删除设备日志表
-    delectEquipLog() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '删除设备日志表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = ["DELETE FROM LOGEQUACTION"]
-      // this.executeCommands(commands)
-    },
-    // 删除皮带秤数据表
-    delectPDCLog() {
-      const item = appsettings.DatabaseCommands.find(x => x.name === '删除皮带秤数据表')
-      if (item) {
-        this.executeCommands(item.commands)
-      }
-      // const commands = ["DELETE FROM COMJOBQUANTITY"]
-      // this.executeCommands(commands)
     },
     // 添加日志
     log(string) {
