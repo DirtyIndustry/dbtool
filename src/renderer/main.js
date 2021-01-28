@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 const store = Vue.observable({settings: {
-  version: 1.1,
+  version: 1.2,
   DatabaseCommands: [
     {
       name: '重置设备状态表',
@@ -62,7 +62,9 @@ const store = Vue.observable({settings: {
   ],
   Urls: {
     taskaction: "JobQueues/JobQueue/JobBtns",
-
+    equipstatus: "JobQueues/JobQueue/ResJobStatus",
+    createtask: "JobQueues/JobQueue/CreateJob",
+    cartdata: "JobQueues/JobQueue/GetCartCurrData?CartCode=NO1SR",
   },
   TaskActions: [
     { name: "启动", value: 0 },

@@ -127,11 +127,6 @@ export default {
   data() {
     return {
       loading: false,
-      // 服务器地址
-      servers: [
-        { name: "本地", url: "http://localhost:9600/" },
-        { name: "测试服", url: "http://192.168.2.43:80/" },
-      ],
       selectedServer: "http://192.168.2.43:80/",
       // 设备状态
       equipStatus: {
@@ -161,12 +156,11 @@ export default {
       },
       cartCode: "NO1SR",
       cartData: null,
-      urls: {
-        equipstatus: "JobQueues/JobQueue/ResJobStatus",
-        createtask: "JobQueues/JobQueue/CreateJob",
-        cartdata: "JobQueues/JobQueue/GetCartCurrData?CartCode=NO1SR",
-      },
     };
+  },
+  computed: {
+    servers() {return this.$store.settings.Servers},
+    urls() {return this.$store.settings.Urls}
   },
   methods: {
     sendEquipStatus() {

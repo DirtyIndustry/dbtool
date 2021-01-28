@@ -131,7 +131,7 @@ export default {
       if (action != null) {
         this.selectedAction = action
       }
-      const url = this.selectedServer + this.urls.action;
+      const url = this.selectedServer + this.urls.taskaction;
       const params = {
         method: "POST",
         mode: "cors",
