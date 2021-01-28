@@ -35,6 +35,11 @@ function createWindow () {
     mainWindow = null
   })
 
+  mainWindow.webContents.on('did-finish-load', () => {
+    const version = app.getVersion()
+    mainWindow.setTitle("料场开发数据库工具 v" + version)
+  })
+
   createMenu()
 }
 

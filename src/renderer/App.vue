@@ -63,7 +63,7 @@ export default {
           if (!fs.existsSync(path.dirname(filepath))) {
             fs.mkdirSync(path.dirname(filepath));
           }
-          fs.writeFileSync(filepath, JSON.stringify(appsettings, null, 1));
+          fs.writeFileSync(filepath, JSON.stringify(this.$store.settings, null, 1));
         } else {
           fetch(filepath)
             .then((res) => res.json())
